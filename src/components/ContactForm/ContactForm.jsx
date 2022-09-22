@@ -28,9 +28,7 @@ export const ContactForm = props => {
 	};
 
 	const handleFormSubmit = (values, { resetForm }) => {
-		console.log(props);
 		props.onSubmit(values);
-		console.log(values);
 		resetForm();
 	};
 
