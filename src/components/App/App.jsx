@@ -4,6 +4,7 @@ import { Container, FormTitle, ContactsTitle } from './App.styled';
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
 import { Filter } from '../Filter/Filter';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 import { nanoid } from 'nanoid';
 
 export class App extends Component {
@@ -24,7 +25,11 @@ export class App extends Component {
 			number,
 		};
 		if (this.findContact(name)) {
-			alert(`Contact: ${name} already exists`);
+			Report.failure(
+				'This contact already existst',
+				'Please make sure you are adding the new contact',
+				'Ckeck again'
+			);
 			return;
 		}
 		this.setState(({ contacts }) => ({
