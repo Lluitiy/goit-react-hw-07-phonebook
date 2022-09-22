@@ -1,14 +1,14 @@
 export const theme = Object.freeze({
-	colors: {
+	color: {
 		white: '#ffffff',
 		black: '#000000',
-		primery: '#010101',
+		main: '#2d2c3e',
 		secondary: '#808080',
 		border: '#dddddd',
 		background: '#f1f1f1',
 		red: '#00a400',
 		green: '#fa383e',
-		blue: '#2a99f3',
+		blue: 'rgb(0,0,255)',
 	},
 
 	spacing: value => `${value}px`,

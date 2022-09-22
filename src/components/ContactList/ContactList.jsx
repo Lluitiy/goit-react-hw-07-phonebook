@@ -1,14 +1,20 @@
 import PropTypes from 'prop-types';
+import {
+	ContactListList,
+	ContactListItem,
+	ContactListBtn,
+	ContactListName,
+	ContactListNumber,
+} from './ContactList.styled';
 
 export const ContactList = ({ contactCard, onDeleteContact }) => {
 	return (
-		<ul>
+		<ContactListList>
 			{contactCard.map(({ id, name, number }) => (
-				<li key={id} id={id}>
-					<p>
-						{name} {number}
-					</p>
-					<button
+				<ContactListItem key={id} id={id}>
+					<ContactListName>{name}</ContactListName>{' '}
+					<ContactListNumber>{number}</ContactListNumber>
+					<ContactListBtn
 						id={id}
 						type="button"
 						onClick={() => {
@@ -16,10 +22,10 @@ export const ContactList = ({ contactCard, onDeleteContact }) => {
 						}}
 					>
 						Remove
-					</button>
-				</li>
+					</ContactListBtn>
+				</ContactListItem>
 			))}
-		</ul>
+		</ContactListList>
 	);
 };
 

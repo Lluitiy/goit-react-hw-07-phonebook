@@ -1,5 +1,14 @@
 import styled from '@emotion/styled';
-import { space, layout, color, flexbox, grid } from 'styled-system';
+import {
+	space,
+	layout,
+	color,
+	flexbox,
+	grid,
+	border,
+	shadow,
+	background,
+} from 'styled-system';
 
 export const Box = styled('div')(
 	{
@@ -9,5 +18,8 @@ export const Box = styled('div')(
 	layout,
 	color,
 	flexbox,
-	grid
+	grid,
+	border,
+	shadow,
+	background
 );

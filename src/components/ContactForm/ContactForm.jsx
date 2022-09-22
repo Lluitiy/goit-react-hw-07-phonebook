@@ -1,40 +1,62 @@
-export const LoginForm = () => {
-	const handleAddContact = e => {
-		e.preventDefault();
-		// const { name, number } = e.target.elements;
-		// // const nameValue = name.value;
-		// // const numberValue = number.value;
+import PropTypes from 'prop-types';
+import { Formik } from 'formik';
+import {
+	ContactsForm,
+	ContactsFormInput,
+	ContactsFormLabel,
+	ContactsBtn,
+	ErrorMsg,
+} from './ContactForm.styled';
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+	name: yup
+		.string()
+		.min(1, 'min: 1 max: 20')
+		.max(20, 'min: 1 max: 20')
+		.required('Please fill the field'),
+	number: yup
+		.string()
+		.min(8, 'min: 8 max: 10')
+		.max(10, 'min: 8 max: 10')
+		.required('Please fill the field'),
+});
+export const ContactForm = props => {
+	const initialValues = {
+		name: '',
+		number: '',
+	};
+
+	const handleFormSubmit = (values, { resetForm }) => {
+		console.log(props);
+		props.onSubmit(values);
+		console.log(values);
+		resetForm();
 	};
 
 	return (
-		<form onSubmit={handleAddContact}>
-			<label htmlFor="name">
-				Name
-				<input
-					type="text"
-					name="name"
-					pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-					title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-					required
-					value={this.state.name}
-					onChange={this.handleChange}
-					id={this.nameId}
-				/>
-			</label>
-			<label htmlFor="number">
-				Number
-				<input
-					type="tel"
-					name="number"
-					pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-					title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-					required
-					value={this.state.number}
-					onChange={this.handleChange}
-					id={this.numberId}
-				/>
-			</label>
-			<button type="submit">Add contact</button>
-		</form>
+		<Formik
+			initialValues={initialValues}
+			onSubmit={handleFormSubmit}
+			validationSchema={schema}
+		>
+			<ContactsForm>
+				<ContactsFormLabel>
+					Name
+					<ContactsFormInput type="text" name="name" />
+				</ContactsFormLabel>
+				<ErrorMsg name="name" component="div" />
+				<ContactsFormLabel>
+					Number
+					<ContactsFormInput type="tel" name="number" />
+				</ContactsFormLabel>
+				<ErrorMsg name="number" component="div" />
+				<ContactsBtn type="submit">Add contact</ContactsBtn>
+			</ContactsForm>
+		</Formik>
 	);
+};
+
+ContactForm.propTypes = {
+	onSubmit: PropTypes.func.isRequired,
 };
