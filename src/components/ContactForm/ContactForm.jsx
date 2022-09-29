@@ -8,6 +8,7 @@ import {
 	ErrorMsg,
 } from './ContactForm.styled';
 import * as yup from 'yup';
+import { nanoid } from 'nanoid';
 
 const schema = yup.object().shape({
 	name: yup
@@ -28,7 +29,12 @@ export const ContactForm = props => {
 	};
 
 	const handleFormSubmit = (values, { resetForm }) => {
-		props.onSubmit(values);
+		const newContact = {
+			id: nanoid(),
+			name: values.name,
+			number: values.number,
+		};
+		props.onSubmit(newContact);
 		resetForm();
 	};
 

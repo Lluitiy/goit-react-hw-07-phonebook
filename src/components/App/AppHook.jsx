@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Box } from 'Box/Box';
+import { useState, useEffect } from 'react';
 import { Container, FormTitle, ContactsTitle } from './App.styled';
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
@@ -10,11 +10,13 @@ const contactArr = [
 	{ id: '1', name: 'Pasha', number: '+3803132562' },
 	{ id: '2', name: 'Lera', number: '+3805054422' },
 ];
-export const App = () => {
-	const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
-	const [contacts, setContacts] = useState(() =>
-		parsedContacts.length > 0 ? parsedContacts : contactArr
-	);
+export const AppHook = props => {
+	const StorageContacts = localStorage.getItem('contacts');
+	const parsedContacts = JSON.parse(StorageContacts);
+
+	const [contacts, setContacts] = useState(() => {
+		return parsedContacts.length > 0 ? parsedContacts : contactArr;
+	});
 	const [filter, setFilter] = useState('');
 
 	useEffect(() => {
@@ -53,6 +55,7 @@ export const App = () => {
 		);
 	};
 
+	const filteredContacts = getContactsByName();
 	return (
 		<Container>
 			<Box
@@ -97,7 +100,7 @@ export const App = () => {
 					<ContactsTitle>Contacts</ContactsTitle>
 					<Filter filter={filter} changeHandler={changeFilterHandler} />
 					<ContactList
-						contactCard={getContactsByName()}
+						contactCard={filteredContacts}
 						onDeleteContact={removeContact}
 					/>
 				</Box>
