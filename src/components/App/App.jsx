@@ -13,7 +13,7 @@ const contactArr = [
 export const App = () => {
 	const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
 	const [contacts, setContacts] = useState(() =>
-		parsedContacts.length > 0 ? parsedContacts : contactArr
+		parsedContacts.length ? parsedContacts : contactArr
 	);
 	const [filter, setFilter] = useState('');
 
