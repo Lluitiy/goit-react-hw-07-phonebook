@@ -43,3 +43,7 @@ export const ContactListBtn = styled.button`
 		background-color: #eb9532;
 	}
 `;
+
+export const Message = styled.h2`
+	text-align: center;
+`;

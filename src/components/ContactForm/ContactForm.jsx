@@ -1,4 +1,6 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contact/contactSlice';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Formik } from 'formik';
 import {
 	ContactsForm,
@@ -22,19 +24,36 @@ const schema = yup.object().shape({
 		.max(10, 'min: 8 max: 10')
 		.required('Please fill the field'),
 });
-export const ContactForm = props => {
+export const ContactForm = () => {
+	const addedContact = useSelector(state => state.contacts.contacts);
 	const initialValues = {
 		name: '',
 		number: '',
 	};
+	const dispatch = useDispatch();
+	const findContact = name => {
+		return addedContact.find(contact => {
+			return contact.name.toLowerCase() === name.toLowerCase();
+		});
+	};
+	console.log('addedContact', addedContact);
 
 	const handleFormSubmit = (values, { resetForm }) => {
+		if (findContact(values.name)) {
+			Report.failure(
+				'This contact already existst',
+				'Please make sure you are adding the new contact',
+				'Ckeck again'
+			);
+			resetForm();
+			return;
+		}
 		const newContact = {
 			id: nanoid(),
 			name: values.name,
 			number: values.number,
 		};
-		props.onSubmit(newContact);
+		dispatch(addContact(newContact));
 		resetForm();
 	};
 
@@ -59,8 +78,4 @@ export const ContactForm = props => {
 			</ContactsForm>
 		</Formik>
 	);
-};
-
-ContactForm.propTypes = {
-	onSubmit: PropTypes.func.isRequired,
 };

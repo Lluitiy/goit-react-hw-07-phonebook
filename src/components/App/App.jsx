@@ -1,65 +1,18 @@
-import { useState, useEffect } from 'react';
 import { Box } from 'Box/Box';
 import { Container, FormTitle, ContactsTitle } from './App.styled';
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
 import { Filter } from '../Filter/Filter';
-import { Report } from 'notiflix/build/notiflix-report-aio';
 
-const contactArr = [
-	{ id: '1', name: 'Pasha', number: '+3803132562' },
-	{ id: '2', name: 'Lera', number: '+3805054422' },
-];
 export const App = () => {
-	const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
-	const [contacts, setContacts] = useState(() =>
-		parsedContacts.length ? parsedContacts : contactArr
-	);
-	const [filter, setFilter] = useState('');
-
-	useEffect(() => {
-		console.log('полетели');
-		localStorage.setItem('contacts', JSON.stringify(contacts));
-	}, [contacts]);
-
-	const findContact = name => {
-		return contacts.find(contact => {
-			return contact.name.toLowerCase() === name.toLowerCase();
-		});
-	};
-
-	const formSubmitHandler = value => {
-		if (findContact(value.name)) {
-			Report.failure(
-				'This contact already existst',
-				'Please make sure you are adding the new contact',
-				'Ckeck again'
-			);
-			return;
-		}
-		setContacts(prevContacts => [...prevContacts, value]);
-	};
-
-	const changeFilterHandler = e => {
-		setFilter(e.currentTarget.value);
-	};
-	const removeContact = contactId => {
-		setContacts(contacts.filter(contact => contact.id !== contactId));
-	};
-	const getContactsByName = () => {
-		const normalizedContacts = filter.toLowerCase();
-		return contacts.filter(contact =>
-			contact.name.toLowerCase().includes(normalizedContacts)
-		);
-	};
-
 	return (
 		<Container>
 			<Box
 				display="flex"
 				justifyContent="space-evenly"
 				flexWrap="wrap"
-				pt={3}
+				pt={4}
+				pb={4}
 				mt={3}
 				ml="auto"
 				mr="auto"
@@ -83,7 +36,7 @@ export const App = () => {
 					boxShadow="rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;"
 				>
 					<FormTitle>Phonebook</FormTitle>
-					<ContactForm onSubmit={formSubmitHandler} />
+					<ContactForm />
 				</Box>
 				<Box
 					display="flex"
@@ -95,11 +48,8 @@ export const App = () => {
 					alignItems="center"
 				>
 					<ContactsTitle>Contacts</ContactsTitle>
-					<Filter filter={filter} changeHandler={changeFilterHandler} />
-					<ContactList
-						contactCard={getContactsByName()}
-						onDeleteContact={removeContact}
-					/>
+					<Filter />
+					<ContactList />
 				</Box>
 			</Box>
 		</Container>
