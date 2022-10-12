@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contact/contactSlice';
+import { useEffect } from 'react';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Formik } from 'formik';
 import {
@@ -10,7 +10,7 @@ import {
 	ErrorMsg,
 } from './ContactForm.styled';
 import * as yup from 'yup';
-import { nanoid } from 'nanoid';
+import { addContacts, getContacts } from 'redux/operations';
 
 const schema = yup.object().shape({
 	name: yup
@@ -18,25 +18,32 @@ const schema = yup.object().shape({
 		.min(1, 'min: 1 max: 20')
 		.max(20, 'min: 1 max: 20')
 		.required('Please fill the field'),
-	number: yup
+	phone: yup
 		.string()
 		.min(8, 'min: 8 max: 10')
 		.max(10, 'min: 8 max: 10')
 		.required('Please fill the field'),
 });
 export const ContactForm = () => {
-	const addedContact = useSelector(state => state.contacts.contacts);
+	const addedContact = useSelector(state => state.contacts);
+	const dispatch = useDispatch();
+	if (addedContact.error) {
+		alert('Ваш комп взломан переведите 10000$ на карту 7892 4552 1124 0228');
+	}
+	useEffect(() => {
+		dispatch(getContacts());
+	}, [dispatch]);
+
 	const initialValues = {
 		name: '',
-		number: '',
+		phone: '',
 	};
-	const dispatch = useDispatch();
+
 	const findContact = name => {
-		return addedContact.find(contact => {
+		return addedContact.items.find(contact => {
 			return contact.name.toLowerCase() === name.toLowerCase();
 		});
 	};
-	console.log('addedContact', addedContact);
 
 	const handleFormSubmit = (values, { resetForm }) => {
 		if (findContact(values.name)) {
@@ -49,11 +56,10 @@ export const ContactForm = () => {
 			return;
 		}
 		const newContact = {
-			id: nanoid(),
 			name: values.name,
-			number: values.number,
+			phone: values.phone,
 		};
-		dispatch(addContact(newContact));
+		dispatch(addContacts(newContact));
 		resetForm();
 	};
 
@@ -71,10 +77,12 @@ export const ContactForm = () => {
 				<ErrorMsg name="name" component="div" />
 				<ContactsFormLabel>
 					Number
-					<ContactsFormInput type="tel" name="number" />
+					<ContactsFormInput type="tel" name="phone" />
 				</ContactsFormLabel>
-				<ErrorMsg name="number" component="div" />
-				<ContactsBtn type="submit">Add contact</ContactsBtn>
+				<ErrorMsg name="phone" component="div" />
+				<ContactsBtn type="submit" disabled={addedContact.isLoading}>
+					{addedContact.isLoading ? 'Wait pls' : 'Add contact'}
+				</ContactsBtn>
 			</ContactsForm>
 		</Formik>
 	);

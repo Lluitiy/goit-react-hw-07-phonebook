@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { removeContact } from 'redux/contact/contactSlice';
+import { deleteContacts } from 'redux/operations';
 import {
 	ContactListList,
 	ContactListItem,
@@ -10,24 +10,26 @@ import {
 } from './ContactList.styled';
 
 export const ContactList = () => {
-	const { contacts, filter } = useSelector(state => state.contacts);
+	const { contacts, filter } = useSelector(state => state);
+
 	const dispatch = useDispatch();
+
 	const deleteContact = id => {
-		console.log('newContacts', id);
-		dispatch(removeContact(id));
+		dispatch(deleteContacts(id));
 	};
+
 	const filteredContacts = filter
-		? contacts.filter(contact =>
+		? contacts.items.filter(contact =>
 				contact.name.toLowerCase().includes(filter.toLowerCase())
 		  )
-		: contacts;
+		: contacts.items;
 	return (
 		<ContactListList>
 			{filteredContacts?.length ? (
-				filteredContacts.map(({ id, name, number }) => (
+				filteredContacts.map(({ id, name, phone }) => (
 					<ContactListItem key={id} id={id}>
 						<ContactListName>{name}</ContactListName>
-						<ContactListNumber>{number}</ContactListNumber>
+						<ContactListNumber>{phone}</ContactListNumber>
 						<ContactListBtn
 							id={id}
 							type="button"
