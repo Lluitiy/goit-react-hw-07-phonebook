@@ -2,7 +2,7 @@
 	"name": "react-homework-template",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://lluitiy.github.io/goit-react-hw-06-phonebook/",
+	"homepage": "https://lluitiy.github.io/goit-react-hw-07-phonebook/",
 	"dependencies": {
 		"@emotion/react": "^11.10.4",
 		"@emotion/styled": "^11.10.4",
@@ -23,7 +23,7 @@
 		"yup": "^0.32.11"
 	},
 	"scripts": {
-		"start": "set PORT=9966 && react-scripts start",
+		"start": "set PORT=7777 && react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
