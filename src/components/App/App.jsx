@@ -47,7 +47,7 @@ export const App = () => {
 					justifyContent="center"
 					alignItems="center"
 				>
-					<ContactsTitle>Contacts:</ContactsTitle>
+					<ContactsTitle>Contacts</ContactsTitle>
 					<Filter />
 					<ContactList />
 				</Box>

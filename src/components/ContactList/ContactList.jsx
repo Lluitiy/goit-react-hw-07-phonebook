@@ -1,3 +1,4 @@
+import { Spinner } from 'components/Spinner/Spinner';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContacts } from 'redux/operations';
 import {
@@ -24,24 +25,31 @@ export const ContactList = () => {
 		  )
 		: contacts.items;
 	return (
-		<ContactListList>
-			{filteredContacts?.length ? (
-				filteredContacts.map(({ id, name, phone }) => (
-					<ContactListItem key={id} id={id}>
-						<ContactListName>{name}</ContactListName>
-						<ContactListNumber>{phone}</ContactListNumber>
-						<ContactListBtn
-							id={id}
-							type="button"
-							onClick={() => deleteContact(id)}
-						>
-							Remove
-						</ContactListBtn>
-					</ContactListItem>
-				))
+		<>
+			{contacts.isLoading ? (
+				<Spinner />
 			) : (
-				<Message> You dont have contacts yet</Message>
+				<ContactListList>
+					{filteredContacts?.length ? (
+						filteredContacts.map(({ id, name, phone }) => (
+							<ContactListItem key={id} id={id}>
+								<ContactListName>{name}</ContactListName>
+								<ContactListNumber>{phone}</ContactListNumber>
+								<ContactListBtn
+									id={id}
+									type="button"
+									onClick={() => deleteContact(id)}
+									disabled={contacts.isLoading}
+								>
+									Remove
+								</ContactListBtn>
+							</ContactListItem>
+						))
+					) : (
+						<Message> You dont have contacts yet</Message>
+					)}
+				</ContactListList>
 			)}
-		</ContactListList>
+		</>
 	);
 };

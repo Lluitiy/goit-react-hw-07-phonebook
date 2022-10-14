@@ -81,7 +81,7 @@ export const ContactForm = () => {
 				</ContactsFormLabel>
 				<ErrorMsg name="phone" component="div" />
 				<ContactsBtn type="submit" disabled={addedContact.isLoading}>
-					{addedContact.isLoading ? 'Wait pls' : 'Add contact'}
+					{addedContact.isLoading ? 'Please Wait' : 'Add contact'}
 				</ContactsBtn>
 			</ContactsForm>
 		</Formik>

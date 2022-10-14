@@ -5,6 +5,7 @@ export const FilterLabel = styled.label`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	margin-bottom: 15px;
 	gap: 10px;
 	color: #131a35;
 	font-size: 18px;
